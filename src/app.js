@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import errorMiddleware from "./middlewares/error.middleware.js";
+import mainRouter from "./routes/main.routes.js";
 
 const app = express();
 
@@ -19,8 +20,9 @@ app.use(express.json()); // Parse incoming JSON requests and put the parsed data
 app.use(cookieParser()); // Parse Cookie header and populate req.cookies with an object keyed by the cookie names, req.cookies
 
 // API routes
-// ... your route handlers here ...
+app.use("/api/v1", mainRouter);
 
+// Handle 404 errors for undefined routes
 app.use((req, res) => {
   res.status(404).json({ message: `path not found ${req.method} ${req.url}` }); // Handle 404 errors for undefined routes
 });
